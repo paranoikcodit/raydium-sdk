@@ -2,10 +2,10 @@ import { createInitializeAccountInstruction } from '@solana/spl-token'
 import { Connection, PublicKey, SystemProgram, TransactionInstruction } from '@solana/web3.js'
 import BN from 'bn.js'
 
-import { Base, generatePubKey, InstructionType, TxVersion } from '../base'
-import { CacheLTA, splitTxAndSigners, SYSVAR_RENT_PUBKEY, TOKEN_PROGRAM_ID } from '../common'
+import { Base, InstructionType, TxVersion, generatePubKey } from '../base'
+import { CacheLTA, SYSVAR_RENT_PUBKEY, TOKEN_PROGRAM_ID, splitTxAndSigners } from '../common'
 import { ZERO } from '../entity'
-import { blob, publicKey, struct, u16, u32, u64, u8, WideBits } from '../marshmallow'
+import { WideBits, blob, publicKey, struct, u16, u32, u64, u8 } from '../marshmallow'
 
 function accountFlagsLayout(property = 'accountFlags') {
   const ACCOUNT_FLAGS_LAYOUT = new WideBits(property)
@@ -204,8 +204,8 @@ export class MarketV2 extends Base {
         basePubkey: wallet,
         seed: marketInfo.id.seed,
         newAccountPubkey: marketInfo.id.publicKey,
-        lamports: await connection.getMinimumBalanceForRentExemption(MARKET_STATE_LAYOUT_V2.span),
-        space: MARKET_STATE_LAYOUT_V2.span,
+        lamports: await connection.getMinimumBalanceForRentExemption(388),
+        space: 388,
         programId: marketInfo.programId,
       }),
       SystemProgram.createAccountWithSeed({
@@ -213,8 +213,8 @@ export class MarketV2 extends Base {
         basePubkey: wallet,
         seed: marketInfo.requestQueue.seed,
         newAccountPubkey: marketInfo.requestQueue.publicKey,
-        lamports: await connection.getMinimumBalanceForRentExemption(5120 + 12),
-        space: 5120 + 12,
+        lamports: await connection.getMinimumBalanceForRentExemption(5084),
+        space: 5084,
         programId: marketInfo.programId,
       }),
       SystemProgram.createAccountWithSeed({
@@ -222,8 +222,8 @@ export class MarketV2 extends Base {
         basePubkey: wallet,
         seed: marketInfo.eventQueue.seed,
         newAccountPubkey: marketInfo.eventQueue.publicKey,
-        lamports: await connection.getMinimumBalanceForRentExemption(262144 + 12),
-        space: 262144 + 12,
+        lamports: await connection.getMinimumBalanceForRentExemption(11308),
+        space: 11308,
         programId: marketInfo.programId,
       }),
       SystemProgram.createAccountWithSeed({
@@ -231,8 +231,8 @@ export class MarketV2 extends Base {
         basePubkey: wallet,
         seed: marketInfo.bids.seed,
         newAccountPubkey: marketInfo.bids.publicKey,
-        lamports: await connection.getMinimumBalanceForRentExemption(65536 + 12),
-        space: 65536 + 12,
+        lamports: await connection.getMinimumBalanceForRentExemption(14524),
+        space: 14524,
         programId: marketInfo.programId,
       }),
       SystemProgram.createAccountWithSeed({
@@ -240,8 +240,8 @@ export class MarketV2 extends Base {
         basePubkey: wallet,
         seed: marketInfo.asks.seed,
         newAccountPubkey: marketInfo.asks.publicKey,
-        lamports: await connection.getMinimumBalanceForRentExemption(65536 + 12),
-        space: 65536 + 12,
+        lamports: await connection.getMinimumBalanceForRentExemption(14524),
+        space: 14524,
         programId: marketInfo.programId,
       }),
       this.initializeMarketInstruction({
